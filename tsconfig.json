@@ -1,0 +1,49 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": true,
+    "useUnknownInCatchVariables": false,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "strictNullChecks": true,
+    "baseUrl": ".",
+    "plugins": [
+      {
+        "name": "next",
+        "prettier": true
+      }
+    ],
+    "paths": {
+      "@/*": ["src/"],
+      "@components/*": ["src/components/*"],
+      "@features/*": ["src/features/*"],
+      "@lib/*": ["src/lib/*"],
+      "@assets/*": ["src/assets/*"],
+      "@configs/*": ["src/configs/*"],
+      "@styles/*": ["src/styles/*"]
+    },
+    "target": "ES2017"
+  },
+  "include": [
+    "custom.d.ts",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/**/*?d.ts"
+  ],
+  "exclude": ["node_modules"]
+}

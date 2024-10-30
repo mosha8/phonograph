@@ -1,0 +1,52 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": ["./tsconfig.json"],
+    "sourceType": "module",
+    "ecmaVersion": "latest",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:@typescript-eslint/strict",
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "next/core-web-vitals",
+    "next",
+    "prettier",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
+  ],
+  "plugins": [
+    "testing-library",
+    "@typescript-eslint",
+    "no-relative-import-paths",
+    "react",
+    "@tanstack/query"
+  ],
+  "rules": {
+    "@typescript-eslint/consistent-type-imports": "error",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@tanstack/query/exhaustive-deps": "error",
+    "@tanstack/query/no-rest-destructuring": "error",
+    "@tanstack/query/stable-query-client": "error",
+    "@typescript-eslint/no-invalid-void-type": "error",
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": false
+      }
+    ]
+  },
+  "ignorePatterns": [
+    ".eslintrc.js",
+    "**/*.d.ts",
+    "tailwind.config.js",
+    "postcss.config.js",
+    "public/*",
+    "src/app/api/graphql/route.ts"
+  ]
+}
