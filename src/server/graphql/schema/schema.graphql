@@ -1,0 +1,56 @@
+type Query {
+  getUserByUsername(username: String!): User!
+  getUserById(id: ID!): User!
+}
+
+type Mutation {
+  signUp(input: signUpInput!): User!
+}
+
+input signUpInput {
+  email: String!
+  password: String!
+}
+
+input signInInput {
+  email: String!
+  password: String!
+}
+
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  password: String
+  fullName: String
+  isActive: Boolean!
+  createdAt: String
+  updatedAt: String
+  role: Role
+}
+
+type Role {
+  id: ID!
+  name: String!
+  createdAt: String
+  updatedAt: String
+  users: [User!]
+}
+
+type Permission {
+  id: ID!
+  scope: String!
+  description: String!
+  createdAt: String
+  updatedAt: String
+  roles: [Role]
+}
+
+type Role_Permission {
+  roleId: String!
+  permissionId: String!
+  createdAt: String
+  updatedAt: String
+  role: Role!
+  permission: Permission!
+}
