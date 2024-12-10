@@ -2,7 +2,7 @@
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "noUnusedParameters": true,
+    "noUnusedParameters": false,
     "noUnusedLocals": true,
     "noImplicitAny": true,
     "useUnknownInCatchVariables": false,
@@ -12,7 +12,7 @@
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "Preserve",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -20,6 +20,7 @@
     "incremental": true,
     "strictNullChecks": true,
     "baseUrl": ".",
+    "types": ["node"],
     "plugins": [
       {
         "name": "next",
@@ -27,15 +28,15 @@
       }
     ],
     "paths": {
-      "@/*": ["src/"],
       "@components/*": ["src/components/*"],
       "@features/*": ["src/features/*"],
       "@lib/*": ["src/lib/*"],
       "@assets/*": ["src/assets/*"],
       "@configs/*": ["src/configs/*"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@server/*": ["src/server/*"]
     },
-    "target": "ES2017"
+    "target": "es5"
   },
   "include": [
     "custom.d.ts",
@@ -43,7 +44,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/**/*?d.ts"
+    "src/**/*?d.ts",
+    "jest.config.ts"
   ],
   "exclude": ["node_modules"]
 }

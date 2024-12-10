@@ -24,7 +24,8 @@
     "@typescript-eslint",
     "no-relative-import-paths",
     "react",
-    "@tanstack/query"
+    "@tanstack/query",
+    "jest"
   ],
   "rules": {
     "@typescript-eslint/consistent-type-imports": "error",
@@ -39,7 +40,12 @@
       {
         "checksVoidReturn": false
       }
-    ]
+    ],
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error"
   },
   "ignorePatterns": [
     ".eslintrc.js",
@@ -47,6 +53,8 @@
     "tailwind.config.js",
     "postcss.config.js",
     "public/*",
-    "src/app/api/graphql/route.ts"
+    "**/*.test.*",
+    "**/*__mocks__*",
+    "/src/server/graphql/@types/resolvers-types.ts"
   ]
 }
