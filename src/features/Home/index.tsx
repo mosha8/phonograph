@@ -1,17 +1,16 @@
-import { userSignOut } from '@lib/actions';
-import { auth } from 'auth.config';
+import TrackExplorer from '@features/TrackExplorer';
+import { auth } from '@lib/actions';
 
 const Home = async () => {
   const session = await auth();
-  // if (!session) {
-  //   redirect('/signin');
-  // }
   return (
-    <div className="text-black">
-      {`Welcome: ${session?.user?.email}`}
-      <form action={userSignOut}>
-        <button type="submit">sign out</button>
-      </form>
+    <div className="w-full">
+      <div className="flex flex-col mt-20">
+        <span className="mb-12 mx-auto text-lg text-darkest tracking-wide">
+          {!session ? 'Welcome' : `Welcome ${session.user?.email}`}
+        </span>
+        <TrackExplorer />
+      </div>
     </div>
   );
 };

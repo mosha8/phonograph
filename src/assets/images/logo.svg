@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg enable-background="new 0 0 281 310" version="1.1" viewBox="0 0 281 310" xml:space="preserve"
+  xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <metadata>
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g transform="matrix(1.1272 0 0 1.1272 -26.671 -15.723)">
+    <rect x="34.492" y="59.314" width="227.63" height="184.29" ry="8.4569" color="#000000"
+      enable-background="accumulate" fill="#d0d0d0" fill-rule="evenodd" stroke="#014463" stroke-width="13" />
+    <circle cx="127.77" cy="152.33" r="73.971" fill="#676767" fill-rule="evenodd" stroke="#014463"
+      stroke-linecap="round" stroke-linejoin="round" stroke-width="9.0429" />
+    <circle cx="127.77" cy="152.33" r="28.712" fill="#00d7ce" fill-rule="evenodd" stroke="#014463"
+      stroke-linecap="round" stroke-linejoin="round" stroke-width="8.7305" />
+    <circle cx="127.77" cy="152.33" r="5.1811" fill="#014463" fill-rule="evenodd" />
+    <rect x="47.622" y="212.73" width="22.626" height="18.1" ry="0" color="#000000" enable-background="accumulate"
+      fill="#00d7ce" fill-rule="evenodd" stroke="#014463" stroke-width="5" />
+    <rect x="223.43" y="189.76" width="11.368" height="29.732" color="#000000" enable-background="accumulate"
+      fill="#00d9d6" fill-rule="evenodd" />
+    <rect x="249.22" y="62.525" width="12.68" height="178.83" ry="0" color="#000000" enable-background="accumulate"
+      fill="#999" fill-rule="evenodd" />
+    <path d="m235.33 95.939v123.92h-13.227v-30.284h25.062" color="#000000" enable-background="accumulate" fill="none"
+      stroke="#014463" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" />
+    <rect x="226.94" y="77.11" width="17.468" height="17.468" color="#000000" enable-background="accumulate"
+      fill="#00d7ce" fill-rule="evenodd" stroke="#014463" stroke-width="6.7778" />
+    <path d="m177.72 231.69h10.443v0" color="#000000" enable-background="accumulate" fill="none" stroke="#014463"
+      stroke-linecap="round" stroke-linejoin="round" stroke-width="5" />
+    <path d="m199.05 231.69h10.443v0" color="#000000" enable-background="accumulate" fill="none" stroke="#014463"
+      stroke-linecap="round" stroke-linejoin="round" stroke-width="5" />
+    <path d="m130.88 91.886c21.028 2.6364 37.542 12.316 48.163 31.002" color="#000000" enable-background="accumulate"
+      fill="none" stroke="#ccc" stroke-linecap="round" stroke-linejoin="round" stroke-width="5" />
+    <rect x="34.492" y="59.314" width="227.63" height="184.29" ry="8.4569" color="#000000"
+      enable-background="accumulate" fill="none" stroke="#014463" stroke-width="13" />
+  </g>
+</svg>

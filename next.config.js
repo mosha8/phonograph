@@ -33,6 +33,16 @@ const nextConfig = {
   },
   output: 'standalone',
   reactStrictMode: true,
+  serverExternalPackages: ['@whatwg-node'],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.scdn.co',
+        pathname: '/image/**',
+      },
+    ],
+  },
 };
 
 module.exports = withBundleAnalyzer(nextConfig);

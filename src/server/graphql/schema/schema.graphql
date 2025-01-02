@@ -1,6 +1,8 @@
 type Query {
   getUserByUsername(username: String!): User!
   getUserById(id: ID!): User!
+  searchAudio(input: searchAudioInput!): SearchResult
+  getTrack(input: getTrackInput!): Track
 }
 
 type Mutation {
@@ -15,6 +17,14 @@ input signUpInput {
 input signInInput {
   email: String!
   password: String!
+}
+
+input searchAudioInput {
+  text: String!
+  type: String!
+}
+input getTrackInput {
+  id: ID!
 }
 
 type User {
@@ -53,4 +63,118 @@ type Role_Permission {
   updatedAt: String
   role: Role!
   permission: Permission!
+}
+
+type Images {
+  url: String!
+  height: Int!
+  width: Int!
+}
+
+type Followers {
+  href: String
+  total: Int
+}
+
+type ExternalUrls {
+  spotify: String
+}
+
+type ExternalIds {
+  isrc: String
+}
+
+type Artist {
+  href: String
+  id: ID!
+  name: String!
+  popularity: Int
+  type: String
+  uri: String
+  images: [Images]!
+  genres: [String]
+  followers: Followers
+  external_urls: ExternalUrls
+}
+
+type Artists {
+  href: String
+  limit: Int
+  next: String
+  offset: Int
+  previous: String
+  total: Int
+  items: [Artist]!
+}
+
+type Artists {
+  href: String
+  id: ID!
+  name: String!
+  type: String
+  uri: String
+  external_urls: ExternalUrls
+}
+
+type Album {
+  album_type: String!
+  total_tracks: Int!
+  href: String!
+  id: ID!
+  name: String!
+  release_date: String!
+  release_date_precision: String
+  type: String
+  uri: String
+  artists: [Artists]!
+  images: [Images]!
+  external_urls: ExternalUrls
+  available_markets: [String]
+}
+
+type Albums {
+  href: String!
+  limit: Int
+  next: String
+  offset: Int
+  previous: String
+  total: Int
+  items: [Album]!
+}
+
+type Track {
+  disc_number: Int
+  duration_ms: Int
+  explicit: Boolean
+  href: String
+  id: ID!
+  is_local: Boolean
+  is_playable: Boolean
+  name: String!
+  popularity: Int
+  preview_url: String
+  track_number: Int
+  type: String
+  uri: String
+  external_urls: ExternalUrls
+  external_ids: ExternalIds
+  available_markets: [String]
+  artists: [Artists]
+  album: Album
+}
+
+type Tracks {
+  href: String
+  limit: Int
+  next: String
+  offset: Int
+  previous: String
+  total: Int
+  items: [Track]!
+}
+
+type SearchResult {
+  tracks: Tracks
+  albums: Albums
+  artists: Artists
 }

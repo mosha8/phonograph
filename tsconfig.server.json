@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "allowJs": true,
+    "noUnusedParameters": false,
+    "noUnusedLocals": true,
+    "noImplicitAny": true,
+    "useUnknownInCatchVariables": false,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "Preserve",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": true,
+    "strictNullChecks": true,
+    "baseUrl": ".",
+    "types": ["node"],
+    "plugins": [
+      {
+        "name": "next",
+        "prettier": true
+      }
+    ],
+    "paths": {
+      "@lib/*": ["src/lib/*"],
+      "@assets/*": ["src/assets/*"],
+      "@configs/*": ["src/configs/*"],
+      "@server/*": ["src/server/*"]
+    },
+    "target": "es5"
+  },
+  "include": [
+    "custom.d.ts",
+    "next-env.d.ts",
+    "**/*.ts",
+    ".next/types/**/*.ts",
+    "src/**/*?d.ts",
+    "jest.config.ts"
+  ],
+  "exclude": ["node_modules"]
+}
