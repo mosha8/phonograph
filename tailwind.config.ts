@@ -8,8 +8,8 @@ const config: Config = {
         primary: '#18181b', // primary
         darkest: '#111827', // headings
         dark: '#4b5563', // secondary texts
-        medium: '#a1a1aa', // non-decorative
-        light: '#e4e4e7', // decorative
+        medium: '#a1a1aa', // non-decorative borders
+        light: '#e4e4e7', // decorative borders
         background: '#f3f4f6',
       },
     },

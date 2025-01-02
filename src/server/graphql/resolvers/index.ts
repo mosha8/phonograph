@@ -5,13 +5,24 @@ import {
   ERROR_DESCRIPTION,
   UnexpectedError,
 } from '@lib/errors';
+
 import { normalizeUser } from '@lib/index';
 import userRepository from '@server/db/model/user/user.model';
 import prisma from '@server/db/prisma/client';
+import spotifyFacade from '@server/services/spotify-facade/spotify.facade.service';
 import type { Resolvers } from '../@types/resolvers-types';
 
 export const resolvers: Resolvers = {
-  Query: {},
+  Query: {
+    searchAudio: async (parent, { input: { text, type } }) => {
+      const searchResult = await spotifyFacade.searchAudio({ text, type });
+      return searchResult;
+    },
+    getTrack: async (parent, { input: { id } }) => {
+      const track = await spotifyFacade.getTrack({ id });
+      return track;
+    },
+  },
   Mutation: {
     signUp: async (parent, { input: { email, password } }) => {
       try {

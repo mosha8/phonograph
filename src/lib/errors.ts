@@ -1,5 +1,14 @@
+import type { CallbackRouteError } from '@auth/core/errors';
+import type { ClientError as GraphqlClientError } from 'graphql-request';
 import { type AuthError, CredentialsSignin } from 'next-auth';
+
+import { toast } from 'react-toastify';
 import { ZodError } from 'zod';
+
+export type ErrorDetail = {
+  code: string;
+  message: string;
+};
 
 export const enum ERROR_CODES {
   AUTH_USER_NOT_FOUND,
@@ -95,7 +104,72 @@ export class UnexpectedError extends BaseError {
   }
 }
 
-export type ErrorDetail = {
-  code: string;
-  message: string;
+export const handleCatchError = (error: unknown) => {
+  if (error instanceof GraphqlClientError) {
+    const {
+      response: { errors },
+    } = error;
+    if (errors && errors.length > 0) {
+      const { message, extensions } = errors[0];
+      if (extensions) {
+        const { originalError } = extensions;
+        const { message: originalErrorMessage } = originalError as Error;
+        if (originalErrorMessage) {
+          toast.error(originalErrorMessage);
+        }
+      } else {
+        toast.error(message);
+      }
+    }
+  }
+  if (error instanceof UnexpectedError) {
+    const { message } = error;
+    toast.error(message);
+  } else {
+    toast.error(ERROR_DESCRIPTION.UNEXPECTED_ERROR);
+  }
+};
+
+export const handleCatchErrorServer = (error: unknown) => {
+  if ((error as Error).message === 'NEXT_REDIRECT') {
+    return { success: true, data: 'SignIn Successful.' };
+  }
+  if (error instanceof AuthSignInError) {
+    const { code, message } = error;
+    return {
+      success: false,
+      errors: [{ code, message }],
+    };
+  }
+  if (error instanceof CredentialsSignin) {
+    const { code, message } = error;
+    return {
+      success: false,
+      errors: [{ code, message }],
+    };
+  }
+  if (error as AuthError satisfies CallbackRouteError) {
+    const { cause } = error as CallbackRouteError;
+    if (cause && cause.err) {
+      const { code, message } = cause.err as PasswordNotSetError;
+      return {
+        success: false,
+        errors: [
+          {
+            code,
+            message,
+          },
+        ],
+      };
+    }
+  }
+  return {
+    success: false,
+    errors: [
+      {
+        code: ERROR_CODES.AUTH_UNKNOWN_ERROR.toString(),
+        message: ERROR_DESCRIPTION.AUTH_UNKNOWN_ERROR,
+      },
+    ],
+  };
 };

@@ -1,11 +1,16 @@
 import type { InputBaseProps } from '@components/FormInput/@types';
 import classNames from 'classnames';
-import { forwardRef } from 'react';
+import type { FC } from 'react';
 
-const Input = forwardRef<HTMLInputElement, InputBaseProps>(function Render(
-  { type = 'text', className, disabled, onChange, error, ...restProps },
-  ref
-) {
+const Input: FC<InputBaseProps> = ({
+  type = 'text',
+  className,
+  disabled,
+  onChange,
+  error,
+  ref,
+  ...restProps
+}) => {
   return (
     <div className={classNames('flex flex-col gap-y-2', className)}>
       <input
@@ -31,6 +36,6 @@ const Input = forwardRef<HTMLInputElement, InputBaseProps>(function Render(
       )}
     </div>
   );
-});
+};
 
 export default Input;

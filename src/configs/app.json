@@ -1,0 +1,27 @@
+{
+  "NavbarItems": [{ "title": "Home", "href": "/" }],
+  "FooterMenu": [
+    {
+      "label": "Navigation",
+      "values": [{ "title": "Home", "href": "/" }]
+    }
+  ],
+  "APIOptionsConfig": [
+    {
+      "url": "https://api.spotify.com/v1",
+      "server": "spotify"
+    },
+    {
+      "url": "https://accounts.spotify.com/api",
+      "server": "spotify_auth"
+    },
+    {
+      "url": "",
+      "server": "sound_cloud"
+    },
+    {
+      "url": "localhost:3000/api/graphql",
+      "server": "graphql"
+    }
+  ]
+}

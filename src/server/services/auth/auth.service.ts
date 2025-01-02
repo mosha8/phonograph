@@ -1,10 +1,10 @@
 import { ERROR_CODES, ERROR_DESCRIPTION } from '@lib/errors';
 import { hashPassword, normalizeUser } from '@lib/index';
+import userRepository from '@server//db/model/user/user.model';
 import type { Response } from '@server/@types';
 import type { SignInInput, User } from '@server/graphql/@types/resolvers-types';
-import userRepository from './user.model';
 
-class UserService {
+class AuthService {
   private readonly userRepository;
   constructor() {
     this.userRepository = userRepository;
@@ -59,5 +59,5 @@ class UserService {
   }
 }
 
-const userService = new UserService();
-export default userService;
+const authService = new AuthService();
+export default authService;

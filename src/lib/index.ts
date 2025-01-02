@@ -29,13 +29,13 @@ const comparePasswords = async (
   return await compare(password, hashedPassword);
 };
 
-type NormalizeResponse<GraphQLUser> = (user: PrismaUser) => GraphQLUser;
+type NormalizeUserResponse<TResponse> = (user: PrismaUser) => TResponse;
 /**
  * Normalizes an object for transfer over network. converting dates to strings, etc...
  * @param object - The object that'll be transferred.
  * @returns The normalized object.
  */
-const normalizeUser: NormalizeResponse<GraphQLUser> = (user) => {
+const normalizeUser: NormalizeUserResponse<GraphQLUser> = (user) => {
   const normalizedObject = Object.assign(user) as GraphQLUser;
   Object.entries(user)
     .filter((arr) => arr[0] === 'createdAt' || arr[0] === 'updatedAt')
@@ -48,4 +48,17 @@ const normalizeUser: NormalizeResponse<GraphQLUser> = (user) => {
   return normalizedUser;
 };
 
-export { comparePasswords, hashPassword, normalizeUser };
+/**
+ * Normalizes an object for transfer over network. converting dates to strings, etc...
+ * @param object - The object that'll be transferred.
+ * @returns The normalized object.
+ */
+const stringifyQueryParams = (
+  params: Record<string, unknown>
+): Record<string, string> => {
+  return Object.fromEntries(
+    Object.entries(params).map(([key, value]) => [key, String(value)])
+  );
+};
+
+export { comparePasswords, hashPassword, normalizeUser, stringifyQueryParams };

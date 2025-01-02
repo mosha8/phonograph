@@ -6,11 +6,11 @@ import FormInput from '@components/FormInput';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from '@lib/actions';
 import graphQLClient from '@lib/client/graphql-client';
-import { ERROR_DESCRIPTION, UnexpectedError } from '@lib/errors';
+import { handleCatchError } from '@lib/errors';
 import type { SignUpInput, User } from '@server/graphql/@types/resolvers-types';
 import { useMutation } from '@tanstack/react-query';
 import { credentialsProvider, googleProvider, providersMap } from 'auth.config';
-import { ClientError, gql } from 'graphql-request';
+import { gql } from 'graphql-request';
 import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
@@ -40,7 +40,8 @@ const SignUp = () => {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      toast.error('Something went wrong with google signup.');
     }
   }, []);
 
@@ -63,25 +64,7 @@ const SignUp = () => {
 
       return signUp;
     } catch (error) {
-      if (error instanceof ClientError) {
-        const {
-          response: { errors },
-        } = error;
-        if (errors && errors.length > 0) {
-          const { message, extensions } = errors[0];
-          if (extensions) {
-            const { originalError } = extensions;
-            const { message: originalErrorMessage } = originalError as Error;
-            if (originalErrorMessage) {
-              toast.error(originalErrorMessage);
-            }
-          } else {
-            toast.error(message);
-          }
-        }
-      } else {
-        throw new UnexpectedError(ERROR_DESCRIPTION.UNEXPECTED_ERROR);
-      }
+      handleCatchError(error);
     }
   }, []);
 
@@ -116,25 +99,7 @@ const SignUp = () => {
           }
         }
       } catch (error) {
-        if (error instanceof ClientError) {
-          const {
-            response: { errors },
-          } = error;
-          if (errors && errors.length > 0) {
-            const { message, extensions } = errors[0];
-            if (extensions) {
-              const { originalError } = extensions;
-              const { message: originalErrorMessage } = originalError as Error;
-              if (originalErrorMessage) {
-                toast.error(originalErrorMessage);
-              }
-            } else {
-              toast.error(message);
-            }
-          }
-        } else {
-          toast.error('Something went wrong.');
-        }
+        handleCatchError(error);
       }
     },
     [router, signUp]
@@ -143,7 +108,7 @@ const SignUp = () => {
   // Effects
   useEffect(() => {
     checkSession().catch((reason) => {
-      console.log(reason);
+      console.error(reason);
     });
   }, [checkSession]);
 

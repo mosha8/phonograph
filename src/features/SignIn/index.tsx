@@ -5,7 +5,7 @@ import FormProvider from '@components/Form/components/provider';
 import FormInput from '@components/FormInput';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn, userSignIn } from '@lib/actions';
-import { ERROR_CODES, ERROR_DESCRIPTION, UnexpectedError } from '@lib/errors';
+import { ERROR_CODES, ERROR_DESCRIPTION, handleCatchError } from '@lib/errors';
 import type { SignInInput } from '@server/graphql/@types/resolvers-types';
 import { providersMap } from 'auth.config';
 import { getSession } from 'next-auth/react';
@@ -60,14 +60,7 @@ const SignIn = () => {
           redirectTo: '/',
         });
       } catch (error) {
-        if (error instanceof UnexpectedError) {
-          const { message } = error;
-          toast.error(message);
-        } else {
-          toast.error(
-            'Something went wrong during authentication process with google provider.'
-          );
-        }
+        handleCatchError(error);
       }
     }
   }, [googleProvider]);

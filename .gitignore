@@ -31,6 +31,7 @@ yarn-error.log*
 
 # env files (can opt-in for commiting if needed)
 .env
+.env.development
 .env.production
 # vercel
 .vercel
@@ -40,7 +41,9 @@ yarn-error.log*
 next-env.d.ts
 
 # docker
-docker/volumes/
+docker/volumes/postgres/data
+docker/volumes/redis/data
+
 
 # vscode
 .vscode/*

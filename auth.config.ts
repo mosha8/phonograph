@@ -1,8 +1,10 @@
 import { SignInError } from '@auth/core/errors';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { generateSessionToken } from '@lib/auth';
+import { isProductionEnvironment } from '@lib/environment';
 import {
   AuthSignInError,
+  DatabaseConnectionFailedError,
   ERROR_CODES,
   ERROR_DESCRIPTION,
   PasswordNotSetError,
@@ -72,6 +74,9 @@ const providers: Provider[] = [
         if (error instanceof ZodError) {
           throw new ValidationError(error);
         }
+        if (error instanceof DatabaseConnectionFailedError) {
+          throw error;
+        }
         if (error instanceof AuthSignInError) {
           throw error;
         }
@@ -117,7 +122,7 @@ export const credentialsProvider = Object.values(providersMap).find(
 );
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  debug: true,
+  debug: isProductionEnvironment() ? false : true,
   providers,
   pages: {
     signIn: '/signin',
