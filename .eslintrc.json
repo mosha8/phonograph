@@ -48,7 +48,7 @@
     "jest/valid-expect": "error"
   },
   "ignorePatterns": [
-    ".eslintrc.js",
+    ".eslintrc.json",
     "**/*.d.ts",
     "tailwind.config.js",
     "postcss.config.js",
