@@ -34,10 +34,12 @@ const NavItems: FC<NavItemsProps> = ({ horizontal = true }) => {
 
   // Effects
   useEffect(() => {
-    checkSession().catch((reason) => {
-      console.error(reason);
-    });
-  }, [checkSession]);
+    if (!session) {
+      checkSession().catch((reason) => {
+        console.error(reason);
+      });
+    }
+  }, [checkSession, session]);
 
   return (
     <div

@@ -13,6 +13,7 @@ export interface FormInputSelectProps {
   disabled?: boolean;
   placeholder?: string;
   isSearchable?: boolean;
+  isMulti?: boolean;
 }
 
 export interface InputSelectProps

@@ -23,30 +23,37 @@ const Input: FC<InputSelectProps> = ({
   onChange,
   isSearchable,
   disabled,
+  isMulti,
+  error,
   ref,
 }) => {
-  const [selectValue, setSelectValue] = useState<InputSelectItem | null>(null);
+  const [selectValue, setSelectValue] = useState<InputSelectItem[]>([]);
 
   useEffect(() => {
     if (value) {
-      const newValue = options.find((item) => value === item.value);
-      setSelectValue(newValue ?? null);
+      const values = (value as string).split(',');
+      const newValue = options.filter((item) => values.includes(item.value));
+      setSelectValue(newValue);
     } else {
-      setSelectValue(null);
+      setSelectValue([]);
     }
   }, [value, options]);
   const onChangeHandler = (newValue: unknown) => {
     if (newValue) {
-      setSelectValue(newValue as InputSelectItem);
-      const { value } = newValue as InputSelectItem;
-      onChange(value);
+      setSelectValue(newValue as InputSelectItem[]);
+      const newValueStringCommaSeparated = (
+        newValue as InputSelectItem[]
+      ).reduce((prevValue, { value }) => {
+        return (prevValue += value + ',');
+      }, '');
+      onChange(newValueStringCommaSeparated);
     } else {
-      setSelectValue(null);
+      setSelectValue([]);
       onChange(undefined);
     }
   };
   return (
-    <div className="h-8 min-w-[500px]">
+    <div className="h-8 min-w-[350px] md:w-[400px] lg:w-[500px]">
       <Select
         instanceId={id}
         name={name}
@@ -54,6 +61,7 @@ const Input: FC<InputSelectProps> = ({
         ref={ref}
         onChange={onChangeHandler}
         options={options}
+        isMulti={isMulti}
         isSearchable={isSearchable}
         styles={{
           control: (baseStyles) => ({
@@ -84,6 +92,11 @@ const Input: FC<InputSelectProps> = ({
         }}
         isDisabled={disabled}
       />
+      {error && (
+        <span className="text-sm text-red-400">
+          {typeof error === 'string' ? error : error.message}
+        </span>
+      )}
     </div>
   );
 };

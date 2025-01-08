@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <footer
       className={classNames(
-        'w-full h-[400px] bg-background sticky bottom-0',
+        'w-screen h-[400px] bg-background sticky bottom-0',
         'md:px-20 px-12 pt-20 pb-3',
         'border-t border-t-medium'
       )}

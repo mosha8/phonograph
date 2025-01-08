@@ -1,8 +1,8 @@
 import Image from '@components/Image';
 import { type FC, useMemo } from 'react';
-import type { TrackSearchPreviewBoxProps } from './@types';
+import type { TrackPreviewBoxProps } from './@types';
 
-const TrackSearchPreviewBox: FC<TrackSearchPreviewBoxProps> = ({ track }) => {
+const TrackPreviewBox: FC<TrackPreviewBoxProps> = ({ track }) => {
   // Memos
   const duration = useMemo(() => {
     if (track && track.duration_ms) {
@@ -18,10 +18,10 @@ const TrackSearchPreviewBox: FC<TrackSearchPreviewBoxProps> = ({ track }) => {
 
   if (!track) return;
   return (
-    <div className="max-w-[580px] mx-auto border rounded-lg pb-8">
+    <div className="max-w-[580px] mx-auto border rounded-lg pb-8 bg-white">
       <div className="flex flex-col gap-y-8">
         <div>
-          {track && track.album && track.album.images[0] && (
+          {track.album && track.album.images[0] && (
             <Image
               width={track.album.images[0].width}
               height={track.album.images[0].height}
@@ -49,4 +49,4 @@ const TrackSearchPreviewBox: FC<TrackSearchPreviewBoxProps> = ({ track }) => {
   );
 };
 
-export default TrackSearchPreviewBox;
+export default TrackPreviewBox;

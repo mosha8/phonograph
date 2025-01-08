@@ -9,75 +9,89 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import type { SearchResult } from '@server/graphql/@types/resolvers-types';
 import { type FC, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import type {
+import {
   audioSearchFormValueSchema,
-  AudioSearchFormValueSchema,
-  AudioSearchProps,
+  type AudioSearchFormValueSchema,
+  type SearchProps,
 } from './@types';
 
 const searchItemTypeOptions: InputSelectItem[] = [
   { label: 'Track', value: 'track' },
-  { label: 'Album', value: 'album', isDisabled: true },
+  { label: 'Album', value: 'album' },
+  { label: 'Artist', value: 'artist' },
 ];
-const TrackSearchForm: FC<AudioSearchProps> = ({ searchQuery, onSubmit }) => {
+const SearchForm: FC<SearchProps> = ({ searchQuery, onSubmit }) => {
   // Form
   const formMethods = useForm<AudioSearchFormValueSchema>({
     resolver: zodResolver(audioSearchFormValueSchema),
     defaultValues: {
-      searchItem: null,
+      searchItem: {},
       searchItemType: 'track',
     },
-    mode: 'onBlur',
+    mode: 'onChange',
   });
 
   // Callbacks
   const createSelectOptions = useCallback(
     (searchResult: SearchResult): GroupInputSelect[] => {
       const { albums, artists, tracks } = searchResult;
-      if (albums && albums.items) {
+      const searchItemType = formMethods.getValues('searchItemType');
+      const resultItem: GroupInputSelect[] = [{ label: '', options: [] }];
+      if (albums && albums.items && searchItemType.includes('album')) {
         const { items } = albums;
-        const filterItems = items.map((album) => {
-          return { label: album?.name ?? '', value: album?.name ?? '' };
+        const filterItems = items.slice(0, 10).map((album) => {
+          return {
+            label: album?.name ?? '',
+            value: album?.id ?? '',
+            category: 'album',
+          };
         });
-        return [{ label: 'albums', options: filterItems }];
+        resultItem.push({ label: 'albums', options: filterItems });
       }
-      if (artists && artists.items) {
+      if (artists && artists.items && searchItemType.includes('artist')) {
         const { items } = artists;
-        const filterItems = items.map((artist) => {
-          return { label: artist?.name ?? '', value: artist?.name ?? '' };
+        const filterItems = items.slice(0, 10).map((artist) => {
+          return {
+            label: artist?.name ?? '',
+            value: artist?.id ?? '',
+            category: 'artist',
+          };
         });
-        return [{ label: 'artists', options: filterItems }];
+        resultItem.push({ label: 'artists', options: filterItems });
       }
-      if (tracks && tracks.items) {
+      if (tracks && tracks.items && searchItemType.includes('track')) {
         const { items } = tracks;
-        const filterItems = items.map((track) => {
+        const filterItems = items.slice(0, 10).map((track) => {
           if (!track || !track.name || !track.artists) {
-            return { label: '', value: '' };
+            return { label: '', value: '', category: 'track' };
           }
           if (track.artists[0]) {
             return {
               label: track.name + ' - ' + track.artists[0].name,
               value: track.id,
+              category: 'track',
             };
           }
           return {
             label: track.name,
             value: track.id,
+            category: 'track',
           };
         });
-        return [{ label: 'tracks', options: filterItems }];
+        resultItem.push({ label: 'tracks', options: filterItems });
       }
-      return [{ label: '', options: [] }];
+      return resultItem;
     },
-    []
+    [formMethods]
   );
   const loadOptions = useCallback(
     async (inputValue: string) => {
-      const searchResult = await searchQuery(inputValue);
+      const searchItemTypeValue = formMethods.getValues('searchItemType');
+      const searchResult = await searchQuery(inputValue, searchItemTypeValue);
       const items = createSelectOptions(searchResult);
       return items;
     },
-    [searchQuery, createSelectOptions]
+    [searchQuery, createSelectOptions, formMethods]
   );
   const onSubmitHandler = useCallback(
     ({ searchItem }: AudioSearchFormValueSchema) => {
@@ -89,7 +103,7 @@ const TrackSearchForm: FC<AudioSearchProps> = ({ searchQuery, onSubmit }) => {
   );
 
   return (
-    <div className="border rounded-lg p-8 max-w-fit mx-auto">
+    <div className="border rounded-lg p-8 max-w-fit mx-auto bg-white">
       <FormProvider
         onSubmit={onSubmitHandler}
         methods={formMethods}
@@ -104,10 +118,11 @@ const TrackSearchForm: FC<AudioSearchProps> = ({ searchQuery, onSubmit }) => {
             options={searchItemTypeOptions}
             name="searchItemType"
             placeholder="Select"
+            isMulti={true}
           />
         </div>
         <div className="space-y-2">
-          <label htmlFor="form-input-search-item">Search for a song</label>
+          <label htmlFor="form-input-search-item">Search For It</label>
           <FormInputSelectAsync
             id="form-input-search-item"
             loadOptions={loadOptions}
@@ -116,11 +131,17 @@ const TrackSearchForm: FC<AudioSearchProps> = ({ searchQuery, onSubmit }) => {
             defaultOptions={[]}
           />
         </div>
-        <Button variant="contained" color="primary" size="medium" type="submit">
+        <Button
+          variant="contained"
+          color="primary"
+          size="medium"
+          type="submit"
+          disabled={!formMethods.formState.isValid}
+        >
           Show
         </Button>
       </FormProvider>
     </div>
   );
 };
-export default TrackSearchForm;
+export default SearchForm;

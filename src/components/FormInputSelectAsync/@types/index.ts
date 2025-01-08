@@ -1,14 +1,15 @@
 import type { ControllerRenderProps, FieldError } from 'react-hook-form';
 
-export interface InputSelectItem {
+export interface InputAsyncSelectItem {
   value: string;
   label: string;
+  category: string;
   isDisabled?: boolean;
 }
 
 export interface GroupInputSelect {
   label: string;
-  options: InputSelectItem[];
+  options: InputAsyncSelectItem[];
 }
 
 export interface FormInputSelectProps {
@@ -19,6 +20,8 @@ export interface FormInputSelectProps {
   disabled?: boolean;
   placeholder?: string;
   isSearchable?: boolean;
+  isClearable?: boolean;
+  cacheOptions?: boolean;
 }
 
 export interface InputSelectProps

@@ -1,11 +1,11 @@
-import type { InputSelectItem } from '@components/FormInputSelect/@types';
+import type { InputAsyncSelectItem } from '@components/FormInputSelectAsync/@types';
 import type { QueryKeyGenerator } from '@lib/client/@types';
 import type { SearchResult } from '@server/graphql/@types/resolvers-types';
 import { z } from 'zod';
 
-export interface AudioSearchProps {
-  searchQuery: (text: string) => Promise<SearchResult>;
-  onSubmit: (searchItem: InputSelectItem) => void;
+export interface SearchProps {
+  searchQuery: (text: string, type: string) => Promise<SearchResult>;
+  onSubmit: (searchItem: InputAsyncSelectItem) => void;
 }
 
 const itemSchema = z.enum([
@@ -19,13 +19,15 @@ const itemSchema = z.enum([
 ]);
 const formValuesSchema = z
   .object({
-    searchItem: z
-      .object({
+    searchItem: z.object(
+      {
         label: z.string(),
-        value: z.string(),
-      })
-      .nullable(),
-    searchItemType: itemSchema,
+        value: z.string().min(1),
+        category: z.string(),
+      },
+      { message: 'Required!' }
+    ),
+    searchItemType: z.string().min(1, { message: 'Required!' }),
   })
   .required();
 type FormValueSchema = z.infer<typeof formValuesSchema>;

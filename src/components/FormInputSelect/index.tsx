@@ -6,7 +6,7 @@ const FormInputSelect: FC<FormInputSelectProps> = ({ name, ...restProps }) => {
   return (
     <Controller
       name={name}
-      render={({ field: { ref, onChange, value } }) => (
+      render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
         <Input
           {...restProps}
           name={name}
@@ -14,6 +14,7 @@ const FormInputSelect: FC<FormInputSelectProps> = ({ name, ...restProps }) => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           value={value}
           onChange={onChange}
+          error={error}
         />
       )}
     />
