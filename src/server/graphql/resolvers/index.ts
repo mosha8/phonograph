@@ -18,9 +18,17 @@ export const resolvers: Resolvers = {
       const searchResult = await spotifyFacade.searchAudio({ text, type });
       return searchResult;
     },
-    getTrack: async (parent, { input: { id } }) => {
-      const track = await spotifyFacade.getTrack({ id });
+    getTrackById: async (parent, { input: { id } }) => {
+      const track = await spotifyFacade.getTrackById({ id });
       return track;
+    },
+    getAlbumById: async (parent, { input: { id } }) => {
+      const album = await spotifyFacade.getAlbumById({ id });
+      return album;
+    },
+    getArtistById: async (parent, { input: { id } }) => {
+      const artist = await spotifyFacade.getArtistById({ id });
+      return artist;
     },
   },
   Mutation: {

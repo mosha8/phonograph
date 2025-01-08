@@ -22,11 +22,10 @@ export default function RootLayout({
       <head>
         <meta
           name="description"
-          content={`Phonograph is a web application developed primarily for practicing purposes.
-            It's an app to explore songs, albums and artists.`}
+          content={`Phonograph is a web application that explores songs, albums and artists.`}
         />
       </head>
-      <body>
+      <body className="w-screen h-screen bg-background overflow-x-hidden">
         <SessionProvider>
           {!isPathnameAuthPages && <Header />}
           <main>

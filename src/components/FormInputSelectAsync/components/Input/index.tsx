@@ -1,6 +1,6 @@
 import type {
   GroupInputSelect,
-  InputSelectItem,
+  InputAsyncSelectItem,
   InputSelectProps,
 } from '@components/FormInputSelectAsync/@types';
 import classNames from 'classnames';
@@ -24,32 +24,36 @@ const Input: FC<InputSelectProps> = ({
   onChange,
   placeholder,
   disabled,
+  isClearable = true,
+  cacheOptions = true,
   ref,
+  error,
 }) => {
-  const [selectValue, setSelectValue] = useState<InputSelectItem | null>(null);
+  const [selectValue, setSelectValue] = useState<InputAsyncSelectItem | null>(
+    null
+  );
   const [inputValue, setInputValue] = useState('');
   const [debouncedInputValue] = useDebounce(inputValue, 2000);
   const debouncedLoadOptions = useCallback(
-    () =>
-      debounce(
-        async (
-          value: string,
-          callback: (options: GroupInputSelect[]) => void
-        ) => {
-          if (debouncedInputValue) {
-            const newOptions = await loadOptions(value);
-            callback(newOptions);
-            return newOptions;
-          }
-          return [];
-        },
-        2000
-      ),
+    debounce(
+      async (
+        value: string,
+        callback: (options: GroupInputSelect[]) => void
+      ) => {
+        if (value) {
+          const newOptions = await loadOptions(value);
+          callback(newOptions);
+          return newOptions;
+        }
+        return [];
+      },
+      2000
+    ),
     [loadOptions, debouncedInputValue]
   );
 
   return (
-    <div className="h-8 min-w-[500px]">
+    <div className="h-8 min-w-[350px] md:w-[400px] lg:w-[500px]">
       <SelectAsync
         instanceId={id}
         name={name}
@@ -58,6 +62,7 @@ const Input: FC<InputSelectProps> = ({
         onInputChange={(newValue) => setInputValue(newValue)}
         ref={ref}
         isSearchable={isSearchable}
+        isClearable={isClearable}
         styles={{
           control: (baseStyles) => ({
             ...baseStyles,
@@ -84,14 +89,14 @@ const Input: FC<InputSelectProps> = ({
               isSelected && '!bg-dark !text-white hover:!text-primary'
             ),
         }}
-        cacheOptions={false}
+        cacheOptions={cacheOptions}
         loadOptions={debouncedLoadOptions}
         defaultOptions={defaultOptions}
         isDisabled={disabled}
         placeholder={placeholder}
         onChange={(newValue) => {
           if (newValue) {
-            setSelectValue(newValue as InputSelectItem);
+            setSelectValue(newValue as InputAsyncSelectItem);
             onChange(newValue);
           } else {
             setSelectValue(null);
@@ -99,6 +104,11 @@ const Input: FC<InputSelectProps> = ({
           }
         }}
       />
+      {error && (
+        <span className="text-sm text-red-400">
+          {typeof error === 'string' ? error : error.message}
+        </span>
+      )}
     </div>
   );
 };

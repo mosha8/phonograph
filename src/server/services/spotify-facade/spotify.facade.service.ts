@@ -7,6 +7,10 @@ import {
 } from '@lib/spotifyClientCredentialsFlow';
 import type { SpotifyAccessToken } from '@lib/spotifyClientCredentialsFlow/@types';
 import type {
+  Album,
+  Artist,
+  GetAlbumInput,
+  GetArtistInput,
   GetTrackInput,
   SearchAudioInput,
   SearchResult,
@@ -62,7 +66,7 @@ class SpotifyFacadeService {
       throw new Error('Something went wrong during search process.');
     }
   }
-  async getTrack({ id }: GetTrackInput): Promise<Track | null> {
+  async getTrackById({ id }: GetTrackInput): Promise<Track | null> {
     try {
       let spotifyAccessToken = await redisClient.get('spotifyAccessToken');
       if (spotifyAccessToken) {
@@ -83,6 +87,80 @@ class SpotifyFacadeService {
         const axiosInstance = restClient.getAxiosInstance('spotify');
         const { data } = await axiosInstance.get<Track | null>(
           `/tracks/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+            },
+          }
+        );
+        return data;
+      }
+      return null;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw error;
+      }
+      throw new Error('Something went wrong during getting track.');
+    }
+  }
+  async getAlbumById({ id }: GetAlbumInput): Promise<Album | null> {
+    try {
+      let spotifyAccessToken = await redisClient.get('spotifyAccessToken');
+      if (spotifyAccessToken) {
+        const valid = isSpotifyAccessTokenValid(spotifyAccessToken);
+        if (!valid) {
+          const token = await spotifyAccessTokenRequest();
+          if (token) {
+            const serializedToken = JSON.stringify(token);
+            const encodedToken = encodeBase64(serializedToken);
+            spotifyAccessToken = encodedToken;
+            await redisClient.set('spotifyAccessToken', encodedToken);
+          }
+        }
+        const decodeAccessToken = decodeBase64(spotifyAccessToken);
+        const { access_token } = JSON.parse(
+          decodeAccessToken
+        ) as SpotifyAccessToken;
+        const axiosInstance = restClient.getAxiosInstance('spotify');
+        const { data } = await axiosInstance.get<Album | null>(
+          `/albums/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+            },
+          }
+        );
+        return data;
+      }
+      return null;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw error;
+      }
+      throw new Error('Something went wrong during getting track.');
+    }
+  }
+  async getArtistById({ id }: GetArtistInput): Promise<Artist | null> {
+    try {
+      let spotifyAccessToken = await redisClient.get('spotifyAccessToken');
+      if (spotifyAccessToken) {
+        const valid = isSpotifyAccessTokenValid(spotifyAccessToken);
+        if (!valid) {
+          const token = await spotifyAccessTokenRequest();
+          if (token) {
+            const serializedToken = JSON.stringify(token);
+            const encodedToken = encodeBase64(serializedToken);
+            spotifyAccessToken = encodedToken;
+            await redisClient.set('spotifyAccessToken', encodedToken);
+          }
+        }
+        const decodeAccessToken = decodeBase64(spotifyAccessToken);
+        const { access_token } = JSON.parse(
+          decodeAccessToken
+        ) as SpotifyAccessToken;
+        const axiosInstance = restClient.getAxiosInstance('spotify');
+        const { data } = await axiosInstance.get<Artist | null>(
+          `/artists/${id}`,
           {
             headers: {
               Authorization: `Bearer ${access_token}`,

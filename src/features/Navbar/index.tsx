@@ -1,4 +1,5 @@
 import LogoIcon from '@assets/images/logo.svg';
+import Drawer from '@components/Drawer';
 import LinkIcon from '@components/LinkIcon';
 import classNames from 'classnames';
 import NavItems from './components/NavItems';
@@ -20,7 +21,9 @@ const Navbar = () => {
       </div>
       <div className="flex items-center gap-16">
         <NavItems horizontal={true} />
-        <div className="block md:hidden">{/* <Drawer /> */}</div>
+        <div className="block md:hidden">
+          <Drawer />
+        </div>
       </div>
     </nav>
   );

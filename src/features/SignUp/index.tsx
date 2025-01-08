@@ -114,8 +114,8 @@ const SignUp = () => {
 
   if (isPending) {
     return (
-      <div className="h-screen content-center bg-background">
-        <div className="min-w-[578px] h-[734px] bg-white border border-light rounded-lg shadow-lg p-32 max-w-fit mx-auto space-y-8 mt-12">
+      <div className="h-screen max-w-fit mx-auto content-center">
+        <div className="min-w-[578px] h-[734px] bg-white border border-light rounded-lg shadow-lg p-32 w-fit space-y-8 mt-12">
           <div className="w-80 h-14 rounded-lg bg-zinc-400 animate-pulse" />
           <div className="flex flex-col items-center gap-y-8 py-12">
             <div className="w-80 h-10 rounded-lg bg-zinc-400 animate-pulse" />
@@ -127,10 +127,10 @@ const SignUp = () => {
     );
   }
   return (
-    <div className="h-screen content-center bg-background">
-      <div className="bg-white border border-light rounded-lg shadow-lg p-32 max-w-fit mx-auto space-y-8">
+    <div className="h-screen max-w-fit mx-auto content-center">
+      <div className="bg-white border border-light rounded-lg shadow-lg p-32 w-fit  space-y-8">
         <div className="flex flex-col gap-y-2 items-center">
-          <label className="text-5xl font-semibold text-darkest">Welcome</label>
+          <label className="text-3xl font-semibold text-darkest">Welcome</label>
           <span className="text-sm text-dark">
             Please register to setup your account
           </span>

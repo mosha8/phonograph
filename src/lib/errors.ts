@@ -1,5 +1,5 @@
 import type { CallbackRouteError } from '@auth/core/errors';
-import type { ClientError as GraphqlClientError } from 'graphql-request';
+import { ClientError as GraphqlClientError } from 'graphql-request';
 import { type AuthError, CredentialsSignin } from 'next-auth';
 
 import { toast } from 'react-toastify';

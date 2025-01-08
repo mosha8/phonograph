@@ -108,10 +108,10 @@ const SignIn = () => {
   }, [checkSession]);
 
   return (
-    <div className="h-screen content-center bg-background">
-      <div className="bg-white border border-light rounded-lg shadow-lg p-32 max-w-fit mx-auto space-y-8">
+    <div className="h-screen max-w-fit mx-auto content-center">
+      <div className="bg-white border border-light rounded-lg shadow-lg p-32 w-fit space-y-8">
         <div className="flex flex-col gap-y-2 items-center">
-          <label className="text-5xl font-semibold text-darkest">
+          <label className="text-3xl font-semibold text-darkest">
             Welcome back
           </label>
           <span className="text-sm text-dark">
@@ -150,6 +150,7 @@ const SignIn = () => {
               size="medium"
               variant="contained"
               className="w-full max-w-full"
+              type="submit"
               disabled={
                 formMethods.formState.isSubmitting ||
                 !formMethods.formState.isValid

@@ -19,7 +19,7 @@ export type Scalars = {
 export type Album = {
   __typename?: 'Album';
   album_type: Scalars['String']['output'];
-  artists: Array<Maybe<Artists>>;
+  artists?: Maybe<Array<Maybe<Artist>>>;
   available_markets?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   external_urls?: Maybe<ExternalUrls>;
   href: Scalars['String']['output'];
@@ -60,18 +60,13 @@ export type Artist = {
 
 export type Artists = {
   __typename?: 'Artists';
-  external_urls?: Maybe<ExternalUrls>;
   href?: Maybe<Scalars['String']['output']>;
-  id: Scalars['ID']['output'];
-  items: Array<Maybe<Artist>>;
+  items?: Maybe<Array<Maybe<Artist>>>;
   limit?: Maybe<Scalars['Int']['output']>;
-  name: Scalars['String']['output'];
   next?: Maybe<Scalars['String']['output']>;
   offset?: Maybe<Scalars['Int']['output']>;
   previous?: Maybe<Scalars['String']['output']>;
   total?: Maybe<Scalars['Int']['output']>;
-  type?: Maybe<Scalars['String']['output']>;
-  uri?: Maybe<Scalars['String']['output']>;
 };
 
 export type ExternalIds = {
@@ -119,14 +114,26 @@ export type Permission = {
 
 export type Query = {
   __typename?: 'Query';
-  getTrack?: Maybe<Track>;
+  getAlbumById?: Maybe<Album>;
+  getArtistById?: Maybe<Artist>;
+  getTrackById?: Maybe<Track>;
   getUserById: User;
   getUserByUsername: User;
   searchAudio?: Maybe<SearchResult>;
 };
 
 
-export type QueryGetTrackArgs = {
+export type QueryGetAlbumByIdArgs = {
+  input: GetAlbumInput;
+};
+
+
+export type QueryGetArtistByIdArgs = {
+  input: GetArtistInput;
+};
+
+
+export type QueryGetTrackByIdArgs = {
   input: GetTrackInput;
 };
 
@@ -174,7 +181,7 @@ export type SearchResult = {
 export type Track = {
   __typename?: 'Track';
   album?: Maybe<Album>;
-  artists?: Maybe<Array<Maybe<Artists>>>;
+  artists?: Maybe<Array<Maybe<Artist>>>;
   available_markets?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   disc_number?: Maybe<Scalars['Int']['output']>;
   duration_ms?: Maybe<Scalars['Int']['output']>;
@@ -215,6 +222,14 @@ export type User = {
   role?: Maybe<Role>;
   updatedAt?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
+};
+
+export type GetAlbumInput = {
+  id: Scalars['ID']['input'];
+};
+
+export type GetArtistInput = {
+  id: Scalars['ID']['input'];
 };
 
 export type GetTrackInput = {
@@ -328,6 +343,8 @@ export type ResolversTypes = {
   Track: ResolverTypeWrapper<Track>;
   Tracks: ResolverTypeWrapper<Tracks>;
   User: ResolverTypeWrapper<User>;
+  getAlbumInput: GetAlbumInput;
+  getArtistInput: GetArtistInput;
   getTrackInput: GetTrackInput;
   searchAudioInput: SearchAudioInput;
   signInInput: SignInInput;
@@ -357,6 +374,8 @@ export type ResolversParentTypes = {
   Track: Track;
   Tracks: Tracks;
   User: User;
+  getAlbumInput: GetAlbumInput;
+  getArtistInput: GetArtistInput;
   getTrackInput: GetTrackInput;
   searchAudioInput: SearchAudioInput;
   signInInput: SignInInput;
@@ -365,7 +384,7 @@ export type ResolversParentTypes = {
 
 export type AlbumResolvers<ContextType = any, ParentType extends ResolversParentTypes['Album'] = ResolversParentTypes['Album']> = {
   album_type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  artists?: Resolver<Array<Maybe<ResolversTypes['Artists']>>, ParentType, ContextType>;
+  artists?: Resolver<Maybe<Array<Maybe<ResolversTypes['Artist']>>>, ParentType, ContextType>;
   available_markets?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   external_urls?: Resolver<Maybe<ResolversTypes['ExternalUrls']>, ParentType, ContextType>;
   href?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -406,18 +425,13 @@ export type ArtistResolvers<ContextType = any, ParentType extends ResolversParen
 };
 
 export type ArtistsResolvers<ContextType = any, ParentType extends ResolversParentTypes['Artists'] = ResolversParentTypes['Artists']> = {
-  external_urls?: Resolver<Maybe<ResolversTypes['ExternalUrls']>, ParentType, ContextType>;
   href?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  items?: Resolver<Array<Maybe<ResolversTypes['Artist']>>, ParentType, ContextType>;
+  items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Artist']>>>, ParentType, ContextType>;
   limit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   next?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   offset?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   previous?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   total?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  uri?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -459,7 +473,9 @@ export type PermissionResolvers<ContextType = any, ParentType extends ResolversP
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getTrack?: Resolver<Maybe<ResolversTypes['Track']>, ParentType, ContextType, RequireFields<QueryGetTrackArgs, 'input'>>;
+  getAlbumById?: Resolver<Maybe<ResolversTypes['Album']>, ParentType, ContextType, RequireFields<QueryGetAlbumByIdArgs, 'input'>>;
+  getArtistById?: Resolver<Maybe<ResolversTypes['Artist']>, ParentType, ContextType, RequireFields<QueryGetArtistByIdArgs, 'input'>>;
+  getTrackById?: Resolver<Maybe<ResolversTypes['Track']>, ParentType, ContextType, RequireFields<QueryGetTrackByIdArgs, 'input'>>;
   getUserById?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserByIdArgs, 'id'>>;
   getUserByUsername?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserByUsernameArgs, 'username'>>;
   searchAudio?: Resolver<Maybe<ResolversTypes['SearchResult']>, ParentType, ContextType, RequireFields<QuerySearchAudioArgs, 'input'>>;
@@ -493,7 +509,7 @@ export type SearchResultResolvers<ContextType = any, ParentType extends Resolver
 
 export type TrackResolvers<ContextType = any, ParentType extends ResolversParentTypes['Track'] = ResolversParentTypes['Track']> = {
   album?: Resolver<Maybe<ResolversTypes['Album']>, ParentType, ContextType>;
-  artists?: Resolver<Maybe<Array<Maybe<ResolversTypes['Artists']>>>, ParentType, ContextType>;
+  artists?: Resolver<Maybe<Array<Maybe<ResolversTypes['Artist']>>>, ParentType, ContextType>;
   available_markets?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   disc_number?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   duration_ms?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
