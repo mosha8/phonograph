@@ -19,7 +19,9 @@ COPY ./postcss.config.js ./
 RUN bun install
 RUN bun graphql:codegen
 RUN bun prisma:generate
+RUN bun prisma:migrate-deploy
 
+# Fix why lint errors happen. No need to do this.
 RUN bun lint --fix
 RUN bun run build
 

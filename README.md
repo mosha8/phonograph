@@ -15,6 +15,7 @@ bun install
 bun docker:up
 bun graphql:codegen
 bun prisma:generate
+bun prisma:migrate-deploy
 bun dev
 ```
 ## Run using Docker:
