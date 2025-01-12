@@ -1,14 +1,17 @@
 type Query {
-  getUserByUsername(username: String!): User!
-  getUserById(id: ID!): User!
   searchAudio(input: searchAudioInput!): SearchResult
-  getTrackById(input: getTrackInput!): Track
-  getAlbumById(input: getAlbumInput!): Album
-  getArtistById(input: getArtistInput!): Artist
+  track(input: TrackInput!): Track
+  album(input: AlbumInput!): Album
+  artist(input: ArtistInput!): Artist
 }
 
 type Mutation {
   signUp(input: signUpInput!): User!
+}
+
+input UserInput {
+  id: String
+  username: String
 }
 
 input signUpInput {
@@ -25,13 +28,13 @@ input searchAudioInput {
   text: String!
   type: String!
 }
-input getTrackInput {
+input TrackInput {
   id: ID!
 }
-input getAlbumInput {
+input AlbumInput {
   id: ID!
 }
-input getArtistInput {
+input ArtistInput {
   id: ID!
 }
 type User {

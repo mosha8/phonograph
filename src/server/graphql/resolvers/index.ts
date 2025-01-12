@@ -18,16 +18,16 @@ export const resolvers: Resolvers = {
       const searchResult = await spotifyFacade.searchAudio({ text, type });
       return searchResult;
     },
-    getTrackById: async (parent, { input: { id } }) => {
-      const track = await spotifyFacade.getTrackById({ id });
+    track: async (parent, { input: { id } }) => {
+      const track = await spotifyFacade.track({ id });
       return track;
     },
-    getAlbumById: async (parent, { input: { id } }) => {
-      const album = await spotifyFacade.getAlbumById({ id });
+    album: async (parent, { input: { id } }) => {
+      const album = await spotifyFacade.album({ id });
       return album;
     },
-    getArtistById: async (parent, { input: { id } }) => {
-      const artist = await spotifyFacade.getArtistById({ id });
+    artist: async (parent, { input: { id } }) => {
+      const artist = await spotifyFacade.artist({ id });
       return artist;
     },
   },

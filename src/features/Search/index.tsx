@@ -16,9 +16,9 @@ import SearchForm from './components/SearchForm';
 import TrackPreviewBox from './components/TrackPreviewBox';
 const Search = () => {
   // States
-  const [track, setTrack] = useState<Track | null>(null);
-  const [album, setAlbum] = useState<Album | null>(null);
-  const [artist, setArtist] = useState<Artist | null>(null);
+  const [trackItem, setTrack] = useState<Track | null>(null);
+  const [albumItem, setAlbum] = useState<Album | null>(null);
+  const [artistItem, setArtist] = useState<Artist | null>(null);
 
   // Callbacks
   const searchQuery = useCallback(async (text: string, type: string) => {
@@ -92,10 +92,10 @@ const Search = () => {
       return {};
     }
   }, []);
-  const getTrackById = useCallback(async (id: string) => {
+  const track = useCallback(async (id: string) => {
     const document = gql`
       query getTrackQuery {
-        getTrackById(input: { id: "${id}" }) {
+        track(input: { id: "${id}" }) {
           explicit
           id
           available_markets
@@ -121,8 +121,8 @@ const Search = () => {
       }
     `;
     try {
-      const { getTrackById: track } = await graphQLClient.request<{
-        getTrackById: Track;
+      const { track: track } = await graphQLClient.request<{
+        track: Track;
       }>({
         document,
       });
@@ -135,10 +135,10 @@ const Search = () => {
       return null;
     }
   }, []);
-  const getAlbumById = useCallback(async (id: string) => {
+  const album = useCallback(async (id: string) => {
     const document = gql`
-      query getAlbumByIdQuery {
-        getAlbumById(input: { id: "${id}" }) {
+      query albumQuery {
+        album(input: { id: "${id}" }) {
           id
           name
           images {
@@ -156,8 +156,8 @@ const Search = () => {
       }
     `;
     try {
-      const { getAlbumById: album } = await graphQLClient.request<{
-        getAlbumById: Album;
+      const { album: album } = await graphQLClient.request<{
+        album: Album;
       }>({
         document,
       });
@@ -170,10 +170,10 @@ const Search = () => {
       return null;
     }
   }, []);
-  const getArtistById = useCallback(async (id: string) => {
+  const artist = useCallback(async (id: string) => {
     const document = gql`
-      query getArtistByIdQuery {
-        getArtistById(input: { id: "${id}" }) {
+      query artistQuery {
+        artist(input: { id: "${id}" }) {
               genres
               id
               name
@@ -187,8 +187,8 @@ const Search = () => {
       }
     `;
     try {
-      const { getArtistById: artist } = await graphQLClient.request<{
-        getArtistById: Artist;
+      const { artist: artist } = await graphQLClient.request<{
+        artist: Artist;
       }>({
         document,
       });
@@ -204,33 +204,33 @@ const Search = () => {
   const onSubmit = useCallback(
     async ({ value, category }: InputAsyncSelectItem) => {
       if (category === 'track') {
-        const track = await getTrackById(value);
-        setTrack(track);
+        const trackItem = await track(value);
+        setTrack(trackItem);
         setAlbum(null);
         setArtist(null);
       }
       if (category === 'album') {
-        const album = await getAlbumById(value);
-        setAlbum(album);
+        const albumItem = await album(value);
+        setAlbum(albumItem);
         setTrack(null);
         setArtist(null);
       }
       if (category === 'artist') {
-        const artist = await getArtistById(value);
-        setArtist(artist);
+        const artistItem = await artist(value);
+        setArtist(artistItem);
         setAlbum(null);
         setTrack(null);
       }
     },
-    [getTrackById, getAlbumById, getArtistById]
+    [album, artist, track]
   );
 
   return (
     <div className="space-y-8">
       <SearchForm searchQuery={searchQuery} onSubmit={onSubmit} />
-      <TrackPreviewBox track={track} />
-      <AlbumPreviewBox album={album} />
-      <ArtistPreviewBox artist={artist} />
+      <TrackPreviewBox track={trackItem} />
+      <AlbumPreviewBox album={albumItem} />
+      <ArtistPreviewBox artist={artistItem} />
     </div>
   );
 };

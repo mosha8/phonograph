@@ -33,6 +33,10 @@ export type Album = {
   uri?: Maybe<Scalars['String']['output']>;
 };
 
+export type AlbumInput = {
+  id: Scalars['ID']['input'];
+};
+
 export type Albums = {
   __typename?: 'Albums';
   href: Scalars['String']['output'];
@@ -56,6 +60,10 @@ export type Artist = {
   popularity?: Maybe<Scalars['Int']['output']>;
   type?: Maybe<Scalars['String']['output']>;
   uri?: Maybe<Scalars['String']['output']>;
+};
+
+export type ArtistInput = {
+  id: Scalars['ID']['input'];
 };
 
 export type Artists = {
@@ -114,42 +122,30 @@ export type Permission = {
 
 export type Query = {
   __typename?: 'Query';
-  getAlbumById?: Maybe<Album>;
-  getArtistById?: Maybe<Artist>;
-  getTrackById?: Maybe<Track>;
-  getUserById: User;
-  getUserByUsername: User;
+  album?: Maybe<Album>;
+  artist?: Maybe<Artist>;
   searchAudio?: Maybe<SearchResult>;
+  track?: Maybe<Track>;
 };
 
 
-export type QueryGetAlbumByIdArgs = {
-  input: GetAlbumInput;
+export type QueryAlbumArgs = {
+  input: AlbumInput;
 };
 
 
-export type QueryGetArtistByIdArgs = {
-  input: GetArtistInput;
-};
-
-
-export type QueryGetTrackByIdArgs = {
-  input: GetTrackInput;
-};
-
-
-export type QueryGetUserByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type QueryGetUserByUsernameArgs = {
-  username: Scalars['String']['input'];
+export type QueryArtistArgs = {
+  input: ArtistInput;
 };
 
 
 export type QuerySearchAudioArgs = {
   input: SearchAudioInput;
+};
+
+
+export type QueryTrackArgs = {
+  input: TrackInput;
 };
 
 export type Role = {
@@ -200,6 +196,10 @@ export type Track = {
   uri?: Maybe<Scalars['String']['output']>;
 };
 
+export type TrackInput = {
+  id: Scalars['ID']['input'];
+};
+
 export type Tracks = {
   __typename?: 'Tracks';
   href?: Maybe<Scalars['String']['output']>;
@@ -224,16 +224,9 @@ export type User = {
   username: Scalars['String']['output'];
 };
 
-export type GetAlbumInput = {
-  id: Scalars['ID']['input'];
-};
-
-export type GetArtistInput = {
-  id: Scalars['ID']['input'];
-};
-
-export type GetTrackInput = {
-  id: Scalars['ID']['input'];
+export type UserInput = {
+  id?: InputMaybe<Scalars['String']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SearchAudioInput = {
@@ -323,8 +316,10 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Album: ResolverTypeWrapper<Album>;
+  AlbumInput: AlbumInput;
   Albums: ResolverTypeWrapper<Albums>;
   Artist: ResolverTypeWrapper<Artist>;
+  ArtistInput: ArtistInput;
   Artists: ResolverTypeWrapper<Artists>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ExternalIds: ResolverTypeWrapper<ExternalIds>;
@@ -341,11 +336,10 @@ export type ResolversTypes = {
   SearchResult: ResolverTypeWrapper<SearchResult>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Track: ResolverTypeWrapper<Track>;
+  TrackInput: TrackInput;
   Tracks: ResolverTypeWrapper<Tracks>;
   User: ResolverTypeWrapper<User>;
-  getAlbumInput: GetAlbumInput;
-  getArtistInput: GetArtistInput;
-  getTrackInput: GetTrackInput;
+  UserInput: UserInput;
   searchAudioInput: SearchAudioInput;
   signInInput: SignInInput;
   signUpInput: SignUpInput;
@@ -354,8 +348,10 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Album: Album;
+  AlbumInput: AlbumInput;
   Albums: Albums;
   Artist: Artist;
+  ArtistInput: ArtistInput;
   Artists: Artists;
   Boolean: Scalars['Boolean']['output'];
   ExternalIds: ExternalIds;
@@ -372,11 +368,10 @@ export type ResolversParentTypes = {
   SearchResult: SearchResult;
   String: Scalars['String']['output'];
   Track: Track;
+  TrackInput: TrackInput;
   Tracks: Tracks;
   User: User;
-  getAlbumInput: GetAlbumInput;
-  getArtistInput: GetArtistInput;
-  getTrackInput: GetTrackInput;
+  UserInput: UserInput;
   searchAudioInput: SearchAudioInput;
   signInInput: SignInInput;
   signUpInput: SignUpInput;
@@ -473,12 +468,10 @@ export type PermissionResolvers<ContextType = any, ParentType extends ResolversP
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getAlbumById?: Resolver<Maybe<ResolversTypes['Album']>, ParentType, ContextType, RequireFields<QueryGetAlbumByIdArgs, 'input'>>;
-  getArtistById?: Resolver<Maybe<ResolversTypes['Artist']>, ParentType, ContextType, RequireFields<QueryGetArtistByIdArgs, 'input'>>;
-  getTrackById?: Resolver<Maybe<ResolversTypes['Track']>, ParentType, ContextType, RequireFields<QueryGetTrackByIdArgs, 'input'>>;
-  getUserById?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserByIdArgs, 'id'>>;
-  getUserByUsername?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserByUsernameArgs, 'username'>>;
+  album?: Resolver<Maybe<ResolversTypes['Album']>, ParentType, ContextType, RequireFields<QueryAlbumArgs, 'input'>>;
+  artist?: Resolver<Maybe<ResolversTypes['Artist']>, ParentType, ContextType, RequireFields<QueryArtistArgs, 'input'>>;
   searchAudio?: Resolver<Maybe<ResolversTypes['SearchResult']>, ParentType, ContextType, RequireFields<QuerySearchAudioArgs, 'input'>>;
+  track?: Resolver<Maybe<ResolversTypes['Track']>, ParentType, ContextType, RequireFields<QueryTrackArgs, 'input'>>;
 };
 
 export type RoleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Role'] = ResolversParentTypes['Role']> = {

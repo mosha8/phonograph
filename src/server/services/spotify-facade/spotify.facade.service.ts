@@ -66,7 +66,7 @@ class SpotifyFacadeService {
       throw new Error('Something went wrong during search process.');
     }
   }
-  async getTrackById({ id }: GetTrackInput): Promise<Track | null> {
+  async track({ id }: GetTrackInput): Promise<Track | null> {
     try {
       let spotifyAccessToken = await redisClient.get('spotifyAccessToken');
       if (spotifyAccessToken) {
@@ -103,7 +103,7 @@ class SpotifyFacadeService {
       throw new Error('Something went wrong during getting track.');
     }
   }
-  async getAlbumById({ id }: GetAlbumInput): Promise<Album | null> {
+  async album({ id }: GetAlbumInput): Promise<Album | null> {
     try {
       let spotifyAccessToken = await redisClient.get('spotifyAccessToken');
       if (spotifyAccessToken) {
@@ -140,7 +140,7 @@ class SpotifyFacadeService {
       throw new Error('Something went wrong during getting track.');
     }
   }
-  async getArtistById({ id }: GetArtistInput): Promise<Artist | null> {
+  async artist({ id }: GetArtistInput): Promise<Artist | null> {
     try {
       let spotifyAccessToken = await redisClient.get('spotifyAccessToken');
       if (spotifyAccessToken) {
