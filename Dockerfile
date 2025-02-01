@@ -9,7 +9,8 @@ COPY .env ./
 COPY ./public ./public/
 COPY ./src ./src/
 COPY ./auth.config.ts ./
-COPY tsconfig*.json ./
+COPY tsconfig.json ./
+COPY .prettierrc ./
 COPY .eslintrc.json ./
 COPY ./next.config.js ./
 COPY ./tailwind.config.ts ./
@@ -21,8 +22,6 @@ RUN bun graphql:codegen
 RUN bun prisma:generate
 RUN bun prisma:migrate-deploy
 
-# Fix why lint errors happen. No need to do this.
-RUN bun lint --fix
 RUN bun run build
 
 ENV NODE_ENV production

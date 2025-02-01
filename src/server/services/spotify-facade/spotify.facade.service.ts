@@ -8,13 +8,13 @@ import {
 import type { SpotifyAccessToken } from '@lib/spotifyClientCredentialsFlow/@types';
 import type {
   Album,
+  AlbumInput,
   Artist,
-  GetAlbumInput,
-  GetArtistInput,
-  GetTrackInput,
+  ArtistInput,
   SearchAudioInput,
   SearchResult,
   Track,
+  TrackInput,
 } from '@server/graphql/@types/resolvers-types';
 import { AxiosError } from 'axios';
 
@@ -66,7 +66,7 @@ class SpotifyFacadeService {
       throw new Error('Something went wrong during search process.');
     }
   }
-  async track({ id }: GetTrackInput): Promise<Track | null> {
+  async track({ id }: TrackInput): Promise<Track | null> {
     try {
       let spotifyAccessToken = await redisClient.get('spotifyAccessToken');
       if (spotifyAccessToken) {
@@ -103,7 +103,7 @@ class SpotifyFacadeService {
       throw new Error('Something went wrong during getting track.');
     }
   }
-  async album({ id }: GetAlbumInput): Promise<Album | null> {
+  async album({ id }: AlbumInput): Promise<Album | null> {
     try {
       let spotifyAccessToken = await redisClient.get('spotifyAccessToken');
       if (spotifyAccessToken) {
@@ -140,7 +140,7 @@ class SpotifyFacadeService {
       throw new Error('Something went wrong during getting track.');
     }
   }
-  async artist({ id }: GetArtistInput): Promise<Artist | null> {
+  async artist({ id }: ArtistInput): Promise<Artist | null> {
     try {
       let spotifyAccessToken = await redisClient.get('spotifyAccessToken');
       if (spotifyAccessToken) {
